@@ -27,7 +27,7 @@ class Gender(models.Model):
 
     class Meta:
         verbose_name = _("Gender")
-        verbose_name_plural = _("s")
+        verbose_name_plural = _("Genders")
 
     def __str__(self):
         return self.gender_name
@@ -36,6 +36,7 @@ class Gender(models.Model):
 
 class Product(models.Model):
     product_name = models.CharField(_("Name"), max_length=100)
+    mainproduct_image = models.ImageField(_("Main Product Image"), upload_to="main_image", height_field=1485, width_field=1200, max_length=None, blank=True)
     product_price = models.DecimalField(_("Price"), max_digits=5, decimal_places=2)
     prodruct_description = models.TextField(_("Description"))
     SKU = models.CharField(_("SKU"), max_length=50)

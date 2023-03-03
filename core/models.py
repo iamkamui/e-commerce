@@ -15,7 +15,7 @@ class Category(models.Model):
     
 
     def __str__(self):
-        return self.category_name
+        return str(self.category_name).lower()
     
 class Gender(models.Model):
     gender_name = models.CharField(_("Name"), max_length=50)
@@ -36,7 +36,7 @@ class Gender(models.Model):
 
 class Product(models.Model):
     product_name = models.CharField(_("Name"), max_length=100)
-    mainproduct_image = models.ImageField(_("Main Product Image"), upload_to="main_image", height_field=1485, width_field=1200, max_length=None, blank=True)
+    mainproduct_image = models.ImageField(_("Main Product Image"), upload_to="main_image", max_length=None, blank=True)
     product_price = models.DecimalField(_("Price"), max_digits=5, decimal_places=2)
     prodruct_description = models.TextField(_("Description"))
     SKU = models.CharField(_("SKU"), max_length=50)

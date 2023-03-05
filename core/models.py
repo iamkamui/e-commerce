@@ -1,4 +1,6 @@
 from django.db import models
+from autoslug import AutoSlugField
+from autoslug.settings import slugify as default_slugify
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
@@ -15,7 +17,7 @@ class Category(models.Model):
     
 
     def __str__(self):
-        return str(self.category_name).lower()
+        return f'{self.category_name}'
     
 class Gender(models.Model):
     gender_name = models.CharField(_("Name"), max_length=50)
@@ -45,9 +47,16 @@ class Product(models.Model):
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     modified_at = models.DateTimeField(_("Modified at"), auto_now=True)
     deleted_at = models.DateTimeField(_("Deleted at"), auto_now_add=True)
+
+    def custom_slugify(value):
+        return default_slugify(value).replace(' ', '-')
+    
+    slug = AutoSlugField(populate_from='product_name',
+                         unique_with=['id__id', 'created_at__month'],
+                         slugify=custom_slugify)
     
     def __str__(self):
         return self.product_name
     
     def get_absolute_url(self):
-        return reverse("_detail", kwargs={"pk": self.pk})
+        return reverse("product-detail", kwargs={"slug": self.slug})
